@@ -77,8 +77,17 @@ func (c *client) create(fqdn, value string, ttl int) error {
 
 	zoneName := ""
 	for _, zone := range zones.ManagedZones {
-		if strings.HasSuffix(c.domain+".", zone.DnsName) {
+		if c.domain == zone.DnsName {
 			zoneName = zone.Name
+			break
+		}
+	}
+	if zoneName == "" {
+		for _, zone := range zones.ManagedZones {
+			if strings.HasSuffix(c.domain+".", zone.DnsName) {
+				zoneName = zone.Name
+				break
+			}
 		}
 	}
 	if zoneName == "" {
@@ -120,8 +129,17 @@ func (c *client) delete(fqdn string) error {
 
 	zoneName := ""
 	for _, zone := range zones.ManagedZones {
-		if strings.HasSuffix(c.domain+".", zone.DnsName) {
+		if c.domain == zone.DnsName {
 			zoneName = zone.Name
+			break
+		}
+	}
+	if zoneName == "" {
+		for _, zone := range zones.ManagedZones {
+			if strings.HasSuffix(c.domain+".", zone.DnsName) {
+				zoneName = zone.Name
+				break
+			}
 		}
 	}
 	if zoneName == "" {
